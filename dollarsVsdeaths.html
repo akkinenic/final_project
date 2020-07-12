@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html>
+<title>Dollars Vs Deaths</title>
+<meta charset="utf-8"  http-equiv="encoding">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href= "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="static/styles/style.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet"  href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css">
+
+
+
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="https://d3js.org/d3-scale.v3.min.js"></script>
+<script src="https://d3js.org/d3-color.v1.min.js"></script>
+<script src="https://d3js.org/topojson.v1.min.js"></script>
+<script src="https://d3js.org/d3-array.v2.min.js"></script>
+<script src="https://d3js.org/d3-axis.v1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+
+
+
+
+<!-- Bootstrap core CSS -->
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+body, html {
+    height: 100%;
+    line-height: 1.8;
+}
+/* Full height image header */
+.bgimg-1 {
+    background-position: center;
+    background-size: cover;
+    background-image: url("static/images/background1.jpg");
+    opacity: 0.9;
+    min-height: 100%;
+    
+}
+
+.bgimg-2 {
+    background-position: center;
+    background-size: cover;
+    background-image: url("static/images/background2.jpg");
+    opacity: 0.9;
+    min-height: 100%;
+    
+}
+.text-block {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  height: 50%;
+  background-color:black  ;
+  color: white;
+  padding-left: 20px;
+  padding-right: 10px;
+  opacity: 0.8;
+
+}
+.w3-bar .w3-button {
+    padding: 16px;
+
+    
+}
+#headerPopup{
+  width:75%;
+  margin:0 auto;
+}
+
+#headerPopup iframe{
+  width:100%;
+  margin:0 auto;
+}
+
+
+</style>
+
+
+
+<script>
+$(document).ready(function(){
+  // Add smooth scrolling to all links
+  $("a").on('click', function(event) {
+
+    // Make sure this.hash has a value before overriding default behavior
+    if (this.hash !== "") {
+      // Prevent default anchor click behavior
+      event.preventDefault();
+
+      // Store hash
+      var hash = this.hash;
+
+      // Using jQuery's animate() method to add smooth page scroll
+      // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 800, function(){
+
+        // Add hash (#) to URL when done scrolling (default click behavior)
+        window.location.hash = hash;
+      });
+    } // End if
+  });
+});
+</script>
+
+<script>
+$(document).ready(function() {
+  $('.popup-youtube').magnificPopup({
+    type:'iframe',
+    midClick: true // Allow opening popup on middle mouse click. Always set it to true if you don't provide alternative source in href.
+  });         
+});
+</script>
+
+
+<body>
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top" >
+  <div class="w3-bar w3-white w3-card" id="myNavbar">
+    <a href="#home" class="w3-bar-item w3-button w3-wide">HOME</a>
+    <!-- Right-sided navbar links -->
+    <div class="w3-right w3-hide-small">
+      <a href="#intro" class="w3-bar-item w3-button">Introduction</a>
+      <a href="#overview" class="w3-bar-item w3-button">Overview</a>
+      <a href="#menu3" class="w3-bar-item w3-button"> Menu3</a>
+      <a href="#menu4" class="w3-bar-item w3-button"> Menu4</a>
+      <a href="#conclusion" class="w3-bar-item w3-button">Conclusions</a>
+      <a href="#team" class="w3-bar-item w3-button">Team</a>
+    </div>
+    <!-- Hide right-floated links on small screens and replace them with a menu icon -->
+
+    <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">
+      <i class="fa fa-bars"></i>
+    </a>
+  </div>
+</div>
+
+Sidebar on small screens when clicking the menu icon
+<nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Close Ã—</a>
+  <a href="#intro" onclick="w3_close()" class="w3-bar-item w3-button">Introduction</a>
+  <a href="#overview" onclick="w3_close()" class="w3-bar-item w3-button">Overview</a>
+  <a href="#menu3" onclick="w3_close()" class="w3-bar-item w3-button"> Menu-3</a>
+  <a href="#menu4" onclick="w3_close()" class="w3-bar-item w3-button"> Menu-4</a>
+  <a href="#team" onclick="w3_close()" class="w3-bar-item w3-button"> Team</a>
+</nav>
+
+
+<!-- Header with full-height image -->
+<header class="bgimg-1 w3-display-container w3-grayscale-min" id="home">
+  <div class="w3-display-left w3-text-white text-block" style="padding:48px">
+    <span class="w3-xxxlarge w3-hide-small">Dollars Vs Deaths. </span>
+    <P class="w3-xlarge" style='font-style: italic' >An analysis of how developed countries especially US is performing against Pandemic</P>
+    <br>
+
+    <span class="w3-large">Coronavirus is revealing how broken America’s economy really is.
+We are told by everyone from the United Nations to Donald Trump that the US is a ‘developed’ economy. The statistics suggest otherwise.
+We would like to compare how other developed countries are compared to un-developed countries against pandemics	</span>
+   <br>
+    <p><a href="#intro" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off" id=startbutton>Start Exploring</a></p>
+  </div>
+</header>
+
+<!-- Introduction Section-->
+<div class="w3-container w3-light-grey" style="padding:80px 16px" id="intro">
+  <!-- <h3 class="w3-center"></h3> -->
+  <p class="w3-left w3-xxlarge w3-row-padding">INTRODUCTION</p>
+  <div class="w3-row-padding" style="margin-top:40px">
+    <div class="w3-half" id = 'introtext'>
+      <p class="w3-large" style= "font-weight: bold">Developed Economies: who are they? </p>
+			<p>The United States of America, we are told by everyone from the president to the United Nations, is a developed economy. That term, “developed economy”, sounds like an endpoint, like the man standing upright after a series of hunched and hairy iterations. It’s the contrast that makes the definition – developed economies can only really exist if they are compared to their poorer “developing” counterparts. Covid-19 has merely shown the cracks in a very successful marketing campaign about which category the US falls into.</p>
+    </div>
+  <br>
+    
+    <div class="w3-half" id = 'circlechart'>
+      <!-- <p><a class="w3-middle w3-button w3-white w3-padding-small w3-small w3-margin-top  w3-hover-opacity-off" id=sob style = 'font-weight: bold'>Click to see insider ownership</a></p> -->
+      <!-- Add chart showing insider ownership vs. whole market -->
+      <!-- <img src= 'images/mktshare_chart.jpg' style = 'height:80%; width: 80%; margin-top:100px'> -->
+      <script> 
+      // src= 'js/circle.js'
+      data = [30,23,0.7]
+      var divwidth = document.getElementById('introtext').clientWidth;
+      var divHeight  = document.getElementById('introtext').clientHeight;
+
+      console.log(divwidth)
+      console.log(divHeight)
+      var svg = d3.select('#circlechart').append('svg').attr('width', divwidth).attr('height', divHeight)
+
+      // svg.append('text')
+      // .attr('x', divwidth/2)
+      // .attr('y',( divHeight-divHeight*0.7)*0.3)
+      // .text('Overall Insider Ownership is Minute')
+      // .style("text-anchor", "middle")
+      // .style('font-size','15px')
+
+      svg.selectAll('circle')
+      .data(data)
+      .enter().append('circle')
+      .attr('r', divHeight/2*0.7)
+      .attr('cx', divwidth/2)
+      .attr('cy', divHeight/2)
+     .style("fill", '#c2d6d6')
+
+     svg.append('text')
+      .attr('x', divwidth/2)
+      .attr('y', (divHeight-divHeight/2*0.8*2)*1.2)
+      .text('Total US Equity Market: $30T')
+      .style("text-anchor", "middle")
+      // .style('font-size','15px')
+     ;
+
+     
+      svg.append('circle')
+      .transition()
+        .delay(1000)
+        .attr('r', divHeight/2*0.7/30*23)
+        .attr('cx', divwidth/2)
+        .attr('cy', divHeight/2 + (divHeight/2*0.8-divHeight/2*0.8/30*23))
+      .style("fill", "#85adad");
+
+      svg.append('text')
+      .transition()
+        .delay(1100)
+        .attr('x', divwidth/2)
+        .attr('y',(divHeight-divHeight/2*0.8/30*23*2)*1.3)
+        .text('Captured by this dataset: $23T')
+        .style("text-anchor", "middle")
+        // .style('font-size','15px')
+      ;
+
+
+      svg.append('circle')
+      .transition()
+      .delay(2000)
+        .attr('r', divHeight/2*0.7/30*0.7)
+        .attr('cx', divwidth/2)
+        .attr('cy',(divHeight-divHeight/2*0.8/30*23*2)*1.2 + (divHeight/2*0.8-divHeight/2*0.8/30*0.7))
+      .style("fill", "#ff0066");
+
+
+      svg.append('text')
+      .transition()
+        .delay(2100)
+        .attr('x', divwidth/2)
+        .attr('y', (divHeight-divHeight/2*0.8/30*23*2)*1.2 + (divHeight/2*0.8-divHeight/2*0.8/30*0.7))
+        .text('Owned by insiders: $667B')
+        .style("text-anchor", "middle")
+        // .style('font-size','15px')
+      ;
+      
+      </script>
+    <br>
+  
+     </div>
+  
+    
+    <div class= "w3-white" id= 'intro_con'></div>
+      <div class=" w3-half w3-left" style ='padding:10px' id = 'introdata'>
+        <!-- <div class="w3-half"></div> -->
+          <p class= "w3-large " style = 'font-weight: bold'>DATA</p>
+          <p>Description of data set</p>
+          <p>More description of data set</p>
+          <p>The data includes:</p>
+          <li>stmt-1</li>
+          <li>stmt-2</li>
+          <li>stmt-3</li>
+      </div>
+      
+
+      <div class='w3-half w3-right  ' id='viz1585857751768' style='position: relative'>
+        <br>
+        <p class = 'w3-left ' style='font-weight:bold'>List of countries (hover over to see details)
+          <!--<button class="popup-youtube" href="http://www.youtube.com/watch?v=oKPlb3xtBnI">DEMO</button><br/> -->
+        </p>
+        <noscript>
+          <a href='#'>
+            <img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;f4&#47;f4_15857771510920&#47;Ownershpbubble&#47;1_rss.png' style='border: none' />
+          </a>
+        </noscript>
+        <object class='tableauViz'  style='display:none;'>
+          <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> 
+          <param name='embed_code_version' value='3' /> 
+          <param name='site_root' value='' />
+          <param name='name' value='f4_15857771510920&#47;Ownershpbubble' />
+          <param name='tabs' value='no' />
+          <param name='toolbar' value='no' />
+          <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;f4&#47;f4_15857771510920&#47;Ownershpbubble&#47;1.png' /> 
+          <param name='animate_transition' value='yes' />
+          <param name='display_static_image' value='yes' />
+          <param name='display_spinner' value='yes' />
+          <param name='display_overlay' value='yes' />
+          <param name='display_count' value='yes' />
+          <param name='filter' value='publish=yes' />
+        </object></div>                
+        <script type='text/javascript'>                    
+        var divElement = document.getElementById('viz1585857751768');                    
+        var vizElement = divElement.getElementsByTagName('object')[0];                    
+        vizElement.style.width='100%';vizElement.style.height=document.getElementById('introdata').clientHeight *0.97+'px';                    
+        var scriptElement = document.createElement('script');                    
+        scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    
+        vizElement.parentNode.insertBefore(scriptElement, vizElement);                
+        </script>
+       <div style ='padding:16px'>
+        <p><a href="#overview" class="w3-button w3-black">NEXT CHART > Overview</a></p>
+       </div>
+      </div>
+     
+       
+    
+
+
+  
+<!-- Overview Section-->
+<div class="w3-container w3-white" style="padding:80x 16px" id=overview>
+
+  <div class="w3-row-padding" style="margin-top:48px">
+    <!-- <div class="w3-half"></div> -->
+      <p class = 'w3-xlarge w3-'>OVERVIEW: High level description here</p>
+    <div style='background-color:#E0E0E0' id= overviewtext>
+      <p class= "w3-medium" style='font-weight: bold text-alignment: center'>Interesting Observations:</p>
+      <li class = 'w3-small'>Observation-1 </li>
+      <li class = 'w3-small'>Observation-2</li>
+      <li class = 'w3-small'>Observation-3</li>
+      <li class = 'w3-small'>Observation-4</li>
+    </div>
+   <!-- <div>
+      <p style = 'color: #2a6f6f'>Play with it yourself: What is the average CEO ownership in financial companies?
+      <button class="popup-youtube" href="http://www.youtube.com/watch?v=IZNa2zOLoxM">DEMO</button><br/>
+     </p>   
+-->
+    <div class='tableauPlaceholder' id='viz1585875517200' style='position: relative'>
+            
+      <noscript><a href='#'><img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;f4&#47;f4_15857771510920&#47;ownership&#47;1_rss.png' style='border: none' />
+      </a>
+    </noscript>
+    <object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> 
+      <param name='embed_code_version' value='3' /> 
+      <param name='site_root' value='' />
+      <param name='name' value='f4_15857771510920&#47;ownership' />
+      <param name='tabs' value='no' />
+      <param name='toolbar' value='yes' />
+      <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;f4&#47;f4_15857771510920&#47;ownership&#47;1.png' /> 
+      <param name='animate_transition' value='yes' />
+      <param name='display_static_image' value='yes' />
+      <param name='display_spinner' value='yes' />
+      <param name='display_overlay' value='yes' />
+      <param name='display_count' value='yes' />
+      <param name='filter' value='publish=yes' />
+    </object>
+  </div>                
+  <script type='text/javascript'>                  
+    var divElement = document.getElementById('viz1585875517200');                    
+    var vizElement = divElement.getElementsByTagName('object')[0];                   
+     if ( divElement.offsetWidth > 800 ) { vizElement.style.width='100%';
+     vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} 
+     else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='100%';
+     vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} 
+     else { vizElement.style.width='100%';vizElement.style.height='1577px';}                     
+     var scriptElement = document.createElement('script');                    
+     scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                   
+      vizElement.parentNode.insertBefore(scriptElement, vizElement);               
+       </script> 
+    
+   
+    </div>
+  </div>
+  <div style ='padding:16px'> <p><a href="#menu3" class="w3-button w3-black">NEXT CHART > Menu3</a></p></div>
+</div>
+
+
+<!-- Menu3 Section-->
+<div class="w3-container w3-light-grey" style="padding: 16px" id="menu3">
+  <div class="w3-row-padding" style="margin-top:40px">
+    <p class = 'w3-xlarge w3-'>Menu-3</p>
+    <div style ='background-color: white'>  
+    <p class= "w3-medium" style='font-weight: bold'>Interesting Observations:</p>
+      <li class = 'w3-small'>Observation-1</li>
+      <li class = 'w3-small'>Observation-2</li>
+      <li class = 'w3-small'>Observation-3</li>
+   
+    </div>
+    <br>
+   
+      
+      <!-- Add chart showing insider ownership vs. whole market -->
+      
+    </div>
+    <div class='tableauPlaceholder' id='viz1585939919974' style='position: relative'>
+     <!-- <p style = 'color: #2a6f6f'>Play with it yourself: How much shares did utilities executives buy in 3Q18 (as % of market cap)?
+      <button class="popup-youtube" href="http://www.youtube.com/watch?v=5ad6XRiRP5c">DEMO</button><br/>
+      </p> -->
+      <noscript><a href='#'>
+        <img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;f4&#47;f4_15857771510920&#47;transactions&#47;1_rss.png' style='border: none' />
+      </a>
+    </noscript>
+    <object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> 
+      <param name='embed_code_version' value='3' /> 
+      <param name='site_root' value='' />
+      <param name='name' value='f4_15857771510920&#47;transactions' />
+      <param name='tabs' value='no' />
+      <param name='toolbar' value='yes' />
+      <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;f4&#47;f4_15857771510920&#47;transactions&#47;1.png' /> 
+      <param name='animate_transition' value='yes' />
+      <param name='display_static_image' value='yes' />
+      <param name='display_spinner' value='yes' />
+      <param name='display_overlay' value='yes' />
+      <param name='display_count' value='yes' />
+      <param name='filter' value='publish=yes' />
+    </object>
+  </div>                
+  <script type='text/javascript'>                    
+  var divElement = document.getElementById('viz1585939919974');                    
+  var vizElement = divElement.getElementsByTagName('object')[0];                   
+   if ( divElement.offsetWidth > 800 ) 
+   { vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.7)+'px';}
+    else if ( divElement.offsetWidth > 500 ) 
+    { vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.7)+'px';}
+     else { vizElement.style.width='100%';vizElement.style.height='1627px';}                     
+     var scriptElement = document.createElement('script');                    
+     scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                  
+       vizElement.parentNode.insertBefore(scriptElement, vizElement);               
+       </script>
+       <p><a href="#menu4" class="w3-button w3-black">NEXT CHART > Menu4</a></p>
+  </div>
+    
+</div>
+ 
+</div>
+
+<!-- Profitability Section-->
+<div class="w3-container w3-white" style="padding:16px" id="menu4">
+
+  <div class="w3-row-padding" style="margin-top:40px">
+    <!-- <div class="w3-half"></div> -->
+      <p class = 'w3-xlarge w3-'>Menu-4</p>
+      <div style ='background-color: #E0E0E0'>  
+        <p class= "w3-medium" style='font-weight: bold'>Interesting Observations:</p>
+          <li class = 'w3-small'>Observation-1</li>
+          <li class = 'w3-small'>Observation-2</li>
+          <li class = 'w3-small'>Observation-3 </li>
+      
+        </div>
+      
+
+      <!-- adding in profit chart -->
+      <div class='tableauPlaceholder' id='viz1586071289142' style='position: relative'>
+       <!-- <p style = 'color: #2a6f6f'>Play with it yourself: What was the 6M profit for shares bought by industrial executives in 3Q17?
+          <button class="popup-youtube" href="http://www.youtube.com/watch?v=5SGangfKUD0">DEMO</button><br/>
+        </p> -->
+
+        <noscript><a href='#'><img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;9C&#47;9CRTF9ZBZ&#47;1_rss.png' style='border: none' />
+        </a>
+      </noscript>
+      <object class='tableauViz'  style='display:none;'>
+        <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> 
+        <param name='embed_code_version' value='3' />
+         <param name='path' value='shared&#47;9CRTF9ZBZ' />
+          <param name='toolbar' value='yes' />
+          <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;9C&#47;9CRTF9ZBZ&#47;1.png' /> 
+          <param name='animate_transition' value='yes' />
+          <param name='display_static_image' value='yes' />
+          <param name='display_spinner' value='yes' />
+          <param name='display_overlay' value='yes' />
+          <param name='display_count' value='yes' />
+        </object></div>                
+        <script type='text/javascript'>                   
+         var divElement = document.getElementById('viz1586071289142');                    
+         var vizElement = divElement.getElementsByTagName('object')[0];                    
+         if ( divElement.offsetWidth > 800 ) 
+         { vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.78)+'px';} 
+         else if ( divElement.offsetWidth > 500 ) 
+         { vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.78)+'px';} 
+         else { vizElement.style.width='100%';vizElement.style.height='1727px';}                     
+         var scriptElement = document.createElement('script');                   
+          scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                   
+           vizElement.parentNode.insertBefore(scriptElement, vizElement);               
+            </script>
+  </div>
+  <br>
+  <p><a href="#menu42" class="w3-button w3-black">NEXT CHART > Sub Menu for Menu 4</a></p>
+</div>
+<!-- Profitability Section-->
+<div class="w3-container w3-white" style="padding:16px" id="menu42">
+
+  <div class="w3-row-padding" style="margin-top:40px">
+    <!-- <div class="w3-half"></div> -->
+      <p class = 'w3-xlarge w3-'>Menu4 - Item2</p>
+      <div style ='background-color: #E0E0E0'>  
+        <p class= "w3-medium" style='font-weight: bold'>Observations:</p>
+        <li class = 'w3-small'> Observation - 1</li>
+        <li class = 'w3-small'> Observation - 2</li>
+        
+      </div>
+      
+     <!-- <p style = 'color: #2a6f6f'>Play with it yourself! The chart below show individual transactions color coded by sector. 
+        <button class="popup-youtube" href="http://www.youtube.com/watch?v=JEoUT5rSEkk">DEMO</button><br/>
+        </p>  -->
+      <!-- adding in profit chart -->
+      <div class='tableauPlaceholder' id='viz1586817033133' style='position: relative'>
+        <noscript>
+          <a href='#'><img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;f4&#47;f4_15857771510920&#47;profit_time_dash&#47;1_rss.png' style='border: none' />
+          </a>
+        </noscript>
+        <object class='tableauViz'  style='display:none;'>
+          <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> 
+          <param name='embed_code_version' value='3' />
+           <param name='site_root' value='' />
+           <param name='name' value='f4_15857771510920&#47;profit_time_dash' />
+           <param name='tabs' value='no' />
+           <param name='toolbar' value='yes' />
+           <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;f4&#47;f4_15857771510920&#47;profit_time_dash&#47;1.png' /> 
+           <param name='animate_transition' value='yes' />
+           <param name='display_static_image' value='yes' />
+           <param name='display_spinner' value='yes' />
+           <param name='display_overlay' value='yes' />
+           <param name='display_count' value='yes' />
+           <param name='filter' value='publish=yes' />
+          </object></div>                
+          <script type='text/javascript'>                 
+             var divElement = document.getElementById('viz1586817033133');                   
+              var vizElement = divElement.getElementsByTagName('object')[0];                   
+               if ( divElement.offsetWidth > 800 ) { vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} 
+               else if ( divElement.offsetWidth > 500 ) 
+               { vizElement.style.width='100%';vizElement.style.height=(divElement.offsetWidth*0.75)+'px';} 
+               else { vizElement.style.width='100%';vizElement.style.height='1077px';}                     
+               var scriptElement = document.createElement('script');                   
+                scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                   
+                 vizElement.parentNode.insertBefore(scriptElement, vizElement);               
+                  </script>
+    
+    
+
+  </div>
+  <p><a href="#conclusion" class="w3-button w3-black">NEXT> Conclusions</a></p>
+</div>
+
+
+<!-- Header with full-height image -->
+<footer class="bgimg-2 w3-display-container w3-grayscale-min" id="conclusion">
+  <div class="w3-display-left w3-text-white text-block" style="padding:48px">
+    <span class="w3-xxxlarge w3-hide-small">CONCLUSIONS:</span>
+    <br>
+    <br>
+    <ol type='1'>
+    <li class = 'w3-medium'> Statement-1</li>
+    <br>
+    <li class = 'w3-medium'> Statement-2</li>
+    <br>
+    <li class = 'w3-medium'> Statement-3</li>
+  </ol>
+   <br>
+  </div>
+</footer>
+
+
+<!-- Footer -->
+<footer class="footer text-center" id="team">
+  <style>
+    .footer {
+  padding-top: 5rem;
+  padding-bottom: 3rem;
+  background-color: #23303d;
+  color: #fff;
+}
+  </style>
+  <div class="container-fluid">
+    <h2 class="text-center text-uppercase text-white">Team</h2>
+    <div class="row">
+      <div class="col-sm-3">
+        <h5 class="w3-large">Naga V Akkineni</h5>
+        <p class="w3-small">
+          kakkineni@berkeley.edu
+        </p>
+      </div>
+      <div class="col-sm-3">
+        <h5 class="w3-large">Venky Nagapudi</h5>
+        <p class="w3-small">
+          vnagapudi@berkeley.edu
+        </p>
+      </div>
+      <div class="col-sm-3">
+        <h5 class="w3-large">Timothy Quek</h5>
+        <p class="w3-small">
+          tina.agarwal@berkeley.edu
+        </p>
+      </div>
+      <div class="col-sm-3">
+        <h5 class="w3-large">Shirley Deng</h5>
+        <p class="w3-small">
+          timothy_quek@berkeley.edu
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body>
+</html>
